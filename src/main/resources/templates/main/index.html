@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layouts/base :: head('Home')}"></head>
+<body>
+    <nav th:replace="~{layouts/base :: navbar}"></nav>
+
+    <main class="container">
+        <div class="hero">
+            <h1>Bem-vindo à Minha Aplicação Java!</h1>
+            <p class="subtitle">Um monolito moderno com templates Thymeleaf</p>
+            <div class="features">
+                <div class="feature-card">
+                    <h3>🚀 Rápido</h3>
+                    <p>Java Spring Boot é robusto e escalável</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🎨 Moderno</h3>
+                    <p>Design limpo e responsivo</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📦 Organizado</h3>
+                    <p>Estrutura bem definida</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{layouts/base :: footer}"></footer>
+    
+    <div th:replace="~{layouts/base :: scripts}"></div>
+</body>
+</html>

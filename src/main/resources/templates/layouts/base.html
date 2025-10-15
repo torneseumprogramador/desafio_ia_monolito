@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title} + ' - Minha Aplicação'">Minha Aplicação</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <nav th:fragment="navbar" class="navbar">
+        <div class="container">
+            <a th:href="@{/}" class="logo">Minha Aplicação</a>
+            <ul class="nav-links">
+                <li><a th:href="@{/}">Home</a></li>
+                <li><a th:href="@{/about}">Sobre</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <footer th:fragment="footer" class="footer">
+        <div class="container">
+            <p>&copy; 2025 Minha Aplicação. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <div th:fragment="scripts">
+        <script th:src="@{/js/main.js}"></script>
+    </div>
+</body>
+</html>

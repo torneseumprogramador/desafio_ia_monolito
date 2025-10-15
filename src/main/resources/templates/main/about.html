@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layouts/base :: head('Sobre')}"></head>
+<body>
+    <nav th:replace="~{layouts/base :: navbar}"></nav>
+
+    <main class="container">
+        <div class="about-section">
+            <h1>Sobre o Projeto</h1>
+            <p>Este é um projeto monolito desenvolvido com Spring Boot.</p>
+
+            <div class="info-box">
+                <h2>Tecnologias Utilizadas</h2>
+                <ul>
+                    <li>Java 17</li>
+                    <li>Spring Boot 3.0</li>
+                    <li>Thymeleaf Templates</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{layouts/base :: footer}"></footer>
+    
+    <div th:replace="~{layouts/base :: scripts}"></div>
+</body>
+</html>
