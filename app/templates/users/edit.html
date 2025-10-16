@@ -50,13 +50,10 @@
                     </div>
 
                     {# Include do Partial Form #}
-                    {% include 'users/_form.html' 
-                       with 
-                       action_url=url_for('users.edit', user_id=user.id),
-                       button_text='Atualizar Usuário',
-                       is_edit_mode=true,
-                       user=user 
-                    %}
+                    {% set action_url = url_for('users.edit', user_id=user.id) %}
+                    {% set button_text = 'Atualizar Usuário' %}
+                    {% set is_edit_mode = true %}
+                    {% include 'users/_form.html' %}
                 </div>
             </div>
         </div>
