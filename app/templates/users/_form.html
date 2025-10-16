@@ -57,16 +57,20 @@
             <label for="phone" class="form-label">
                 Telefone
             </label>
-            <input type="tel" 
-                   class="form-control" 
-                   id="phone" 
-                   name="phone"
-                   value="{{ user.phone if user else (data.phone if data else '') }}"
-                   placeholder="(00) 00000-0000"
-                   pattern="[\(\)\s\-\+\d]{10,20}"
-                   title="Formato: (00) 00000-0000">
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="fas fa-phone"></i>
+                </span>
+                <input type="tel" 
+                       class="form-control" 
+                       id="phone" 
+                       name="phone"
+                       value="{{ user.phone if user else (data.phone if data else '') }}"
+                       placeholder="(00) 00000-0000"
+                       maxlength="15">
+            </div>
             <small class="form-text text-muted">
-                <i class="fas fa-info-circle"></i> Formato: (00) 00000-0000
+                <i class="fas fa-info-circle"></i> Digite apenas números. A formatação é automática.
             </small>
             <div class="invalid-feedback">
                 Por favor, informe um telefone válido.
@@ -161,6 +165,57 @@
 </form>
 
 <script>
+    // Máscara de Telefone Brasileiro
+    document.addEventListener('DOMContentLoaded', function() {
+        const phoneInput = document.getElementById('phone');
+        
+        if (phoneInput) {
+            // Aplicar máscara ao carregar a página (se houver valor)
+            if (phoneInput.value) {
+                phoneInput.value = formatPhone(phoneInput.value);
+            }
+            
+            // Aplicar máscara enquanto digita
+            phoneInput.addEventListener('input', function(e) {
+                let value = e.target.value;
+                e.target.value = formatPhone(value);
+            });
+            
+            // Prevenir entrada de caracteres não numéricos (exceto backspace, delete, etc)
+            phoneInput.addEventListener('keypress', function(e) {
+                const char = String.fromCharCode(e.which);
+                if (!/[0-9]/.test(char)) {
+                    e.preventDefault();
+                }
+            });
+        }
+        
+        function formatPhone(value) {
+            // Remove tudo que não é número
+            let numbers = value.replace(/\D/g, '');
+            
+            // Limita a 11 dígitos (2 DDD + 9 número)
+            numbers = numbers.substring(0, 11);
+            
+            // Aplica a máscara conforme o tamanho
+            if (numbers.length === 0) {
+                return '';
+            } else if (numbers.length <= 2) {
+                // (00
+                return `(${numbers}`;
+            } else if (numbers.length <= 6) {
+                // (00) 0000
+                return `(${numbers.substring(0, 2)}) ${numbers.substring(2)}`;
+            } else if (numbers.length <= 10) {
+                // (00) 0000-0000
+                return `(${numbers.substring(0, 2)}) ${numbers.substring(2, 6)}-${numbers.substring(6)}`;
+            } else {
+                // (00) 00000-0000
+                return `(${numbers.substring(0, 2)}) ${numbers.substring(2, 7)}-${numbers.substring(7, 11)}`;
+            }
+        }
+    });
+
     // Toggle de visibilidade da senha
     document.getElementById('togglePassword').addEventListener('click', function () {
         const password = document.getElementById('password');
