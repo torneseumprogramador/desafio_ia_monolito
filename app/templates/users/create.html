@@ -44,3 +44,10 @@
     </div>
 </div>
 {% endblock %}
+
+{% block extra_js %}
+<!-- Scripts para formulário de usuário -->
+<script src="{{ url_for('static', filename='js/masks.js') }}"></script>
+<script src="{{ url_for('static', filename='js/form-utils.js') }}"></script>
+<script src="{{ url_for('static', filename='js/user-form.js') }}"></script>
+{% endblock %}
