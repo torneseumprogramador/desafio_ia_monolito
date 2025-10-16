@@ -6,109 +6,60 @@
 <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="mb-0">Editar Usuário</h2>
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-dark">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-user-edit me-2 fs-4"></i>
+                            <h2 class="mb-0">Editar Usuário</h2>
+                        </div>
+                        {% if user.is_active %}
+                            <span class="badge bg-success">
+                                <i class="fas fa-check-circle"></i> Ativo
+                            </span>
+                        {% else %}
+                            <span class="badge bg-secondary">
+                                <i class="fas fa-times-circle"></i> Inativo
+                            </span>
+                        {% endif %}
+                    </div>
                 </div>
                 <div class="card-body">
+                    {# Flash Messages #}
                     {% with messages = get_flashed_messages(with_categories=true) %}
                         {% if messages %}
                             {% for category, message in messages %}
                                 <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                    <i class="fas fa-{% if category == 'success' %}check-circle{% elif category == 'danger' %}exclamation-circle{% else %}info-circle{% endif %} me-2"></i>
                                     {{ message }}
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
                                 </div>
                             {% endfor %}
                         {% endif %}
                     {% endwith %}
 
-                    <form method="POST" action="{{ url_for('users.edit', user_id=user.id) }}">
-                        <div class="row">
-                            <div class="col-md-12 mb-3">
-                                <label for="name" class="form-label">Nome Completo *</label>
-                                <input type="text" 
-                                       class="form-control" 
-                                       id="name" 
-                                       name="name" 
-                                       value="{{ user.name }}"
-                                       required>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label for="username" class="form-label">Username *</label>
-                                <input type="text" 
-                                       class="form-control" 
-                                       id="username" 
-                                       name="username"
-                                       value="{{ user.username }}"
-                                       required>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label for="email" class="form-label">Email *</label>
-                                <input type="email" 
-                                       class="form-control" 
-                                       id="email" 
-                                       name="email"
-                                       value="{{ user.email }}"
-                                       required>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label for="phone" class="form-label">Telefone</label>
-                                <input type="tel" 
-                                       class="form-control" 
-                                       id="phone" 
-                                       name="phone"
-                                       value="{{ user.phone or '' }}"
-                                       placeholder="(00) 00000-0000">
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label for="password" class="form-label">Nova Senha</label>
-                                <input type="password" 
-                                       class="form-control" 
-                                       id="password" 
-                                       name="password"
-                                       minlength="6">
-                                <small class="text-muted">Deixe em branco para manter a senha atual</small>
-                            </div>
-
-                            <div class="col-md-12 mb-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" 
-                                           type="checkbox" 
-                                           id="is_active" 
-                                           name="is_active"
-                                           {{ 'checked' if user.is_active else '' }}>
-                                    <label class="form-check-label" for="is_active">
-                                        Usuário ativo
-                                    </label>
-                                </div>
+                    <div class="alert alert-warning border-start border-warning border-4 mb-4">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-exclamation-triangle me-2 fs-5"></i>
+                            <div>
+                                <strong>Atenção:</strong> Você está editando o usuário <strong>{{ user.username }}</strong>.
+                                <br>
+                                <small>Certifique-se de revisar as alterações antes de salvar.</small>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="alert alert-info">
-                            <strong>Informações:</strong>
-                            <ul class="mb-0">
-                                <li>Criado em: {{ user.created_at.strftime('%d/%m/%Y às %H:%M') }}</li>
-                                <li>Última atualização: {{ user.updated_at.strftime('%d/%m/%Y às %H:%M') }}</li>
-                            </ul>
-                        </div>
-
-                        <div class="d-flex justify-content-between mt-4">
-                            <a href="{{ url_for('users.index') }}" class="btn btn-secondary">
-                                <i class="fas fa-arrow-left"></i> Voltar
-                            </a>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save"></i> Atualizar Usuário
-                            </button>
-                        </div>
-                    </form>
+                    {# Include do Partial Form #}
+                    {% include 'users/_form.html' 
+                       with 
+                       action_url=url_for('users.edit', user_id=user.id),
+                       button_text='Atualizar Usuário',
+                       is_edit_mode=true,
+                       user=user 
+                    %}
                 </div>
             </div>
         </div>
     </div>
 </div>
 {% endblock %}
-
