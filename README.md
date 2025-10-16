@@ -1,6 +1,6 @@
-# Aplicação Flask - Arquitetura MVC
+# Aplicação Flask - Arquitetura em Camadas
 
-Uma aplicação web monolítica desenvolvida com Flask seguindo o padrão **MVC (Model-View-Controller)**.
+Uma aplicação web monolítica desenvolvida com Flask seguindo o padrão **MVC (Model-View-Controller)** com arquitetura em camadas (Controllers, Services, Repositories).
 
 ## 📋 Estrutura do Projeto (MVC)
 
@@ -8,12 +8,17 @@ Uma aplicação web monolítica desenvolvida com Flask seguindo o padrão **MVC 
 monolito/
 ├── app/                      # Pasta principal da aplicação
 │   ├── __init__.py          # Application Factory
+│   ├── config.py            # Configurações da aplicação
 │   ├── controllers/         # Controllers (Rotas/Lógica de controle)
 │   │   ├── __init__.py
-│   │   └── main_controller.py
-│   ├── models/              # Models (Modelos de dados)
+│   │   ├── main_controller.py
+│   │   └── user_controller.py
+│   ├── models/              # Models (Entidades/Modelos de dados)
 │   │   ├── __init__.py
 │   │   └── user.py
+│   ├── repositories/        # Repositories (Acesso aos dados)
+│   │   ├── __init__.py
+│   │   └── user_repository.py
 │   ├── services/            # Services (Lógica de negócio)
 │   │   ├── __init__.py
 │   │   └── user_service.py
@@ -22,25 +27,48 @@ monolito/
 │   │   └── helpers.py
 │   ├── templates/           # Views (Templates HTML)
 │   │   ├── layouts/
-│   │   │   └── base.html    # Layout base para uso nas outras views
-│   │   └── main/
-│   │       ├── index.html   # Página inicial do site
-│   │       └── about.html   # Página sobre
+│   │   │   └── base.html    # Layout base
+│   │   ├── main/
+│   │   │   ├── index.html   # Página inicial
+│   │   │   └── about.html   # Página sobre
+│   │   └── users/           # Templates de usuários
+│   │       ├── index.html   # Lista de usuários
+│   │       ├── create.html  # Criar usuário
+│   │       ├── edit.html    # Editar usuário
+│   │       └── show.html    # Detalhes do usuário
 │   └── static/              # Arquivos estáticos
 │       ├── css/
 │       │   └── style.css
 │       └── js/
 │           └── main.js
+├── docker-compose.yml       # Configuração Docker (PostgreSQL)
+├── init.sql                 # Script de inicialização do banco
+├── Makefile                 # Comandos facilitadores
 ├── run.py                   # Arquivo principal para executar
 ├── requirements.txt         # Dependências
 └── README.md                # Este arquivo
 ```
 
-## 🏗️ Arquitetura MVC
+## 🏗️ Arquitetura em Camadas
 
-### **Models** (Modelos)
+### **Controllers** (Controladores)
+- Gerenciam as rotas HTTP e requisições
+- Recebem dados da requisição e retornam respostas
+- Localização: `app/controllers/`
+
+### **Services** (Serviços)
+- Contêm a lógica de negócio
+- Validações e regras de negócio
+- Localização: `app/services/`
+
+### **Repositories** (Repositórios)
+- Acesso direto ao banco de dados
+- Operações CRUD (Create, Read, Update, Delete)
+- Localização: `app/repositories/`
+
+### **Models** (Entidades)
 - Representam a estrutura de dados
-- Interagem com o banco de dados
+- Definem as tabelas do banco de dados
 - Localização: `app/models/`
 
 ### **Views** (Visualizações)

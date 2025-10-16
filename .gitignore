@@ -30,6 +30,10 @@ instance/
 .webassets-cache
 *.db
 
+# Migrations (manter apenas os arquivos de versão)
+migrations/__pycache__/
+*.pyc
+
 # Environment
 .env
 

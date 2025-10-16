@@ -1,0 +1,127 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Detalhes do Usuário{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h2 class="mb-0">Detalhes do Usuário</h2>
+                    <div>
+                        {% if user.is_active %}
+                            <span class="badge bg-success">Ativo</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Inativo</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="card-body">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                    <div class="row">
+                        <div class="col-md-12 mb-4">
+                            <div class="text-center mb-4">
+                                <div class="avatar-circle bg-primary text-white d-inline-flex align-items-center justify-content-center" 
+                                     style="width: 100px; height: 100px; border-radius: 50%; font-size: 2.5rem;">
+                                    {{ user.name[0].upper() }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-muted">ID</label>
+                            <p class="fw-bold">#{{ user.id }}</p>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-muted">Nome Completo</label>
+                            <p class="fw-bold">{{ user.name }}</p>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-muted">Username</label>
+                            <p class="fw-bold">{{ user.username }}</p>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-muted">Email</label>
+                            <p class="fw-bold">
+                                <i class="fas fa-envelope"></i> {{ user.email }}
+                            </p>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-muted">Telefone</label>
+                            <p class="fw-bold">
+                                {% if user.phone %}
+                                    <i class="fas fa-phone"></i> {{ user.phone }}
+                                {% else %}
+                                    <span class="text-muted">Não informado</span>
+                                {% endif %}
+                            </p>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-muted">Status</label>
+                            <p class="fw-bold">
+                                {% if user.is_active %}
+                                    <i class="fas fa-check-circle text-success"></i> Ativo
+                                {% else %}
+                                    <i class="fas fa-times-circle text-danger"></i> Inativo
+                                {% endif %}
+                            </p>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-muted">Data de Cadastro</label>
+                            <p class="fw-bold">
+                                <i class="fas fa-calendar"></i> {{ user.created_at.strftime('%d/%m/%Y às %H:%M') }}
+                            </p>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-muted">Última Atualização</label>
+                            <p class="fw-bold">
+                                <i class="fas fa-clock"></i> {{ user.updated_at.strftime('%d/%m/%Y às %H:%M') }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{{ url_for('users.index') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Voltar
+                        </a>
+                        <div>
+                            <a href="{{ url_for('users.edit', user_id=user.id) }}" class="btn btn-warning">
+                                <i class="fas fa-edit"></i> Editar
+                            </a>
+                            <form method="POST" 
+                                  action="{{ url_for('users.delete', user_id=user.id) }}" 
+                                  onsubmit="return confirm('Tem certeza que deseja excluir este usuário?');"
+                                  style="display: inline;">
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="fas fa-trash"></i> Excluir
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

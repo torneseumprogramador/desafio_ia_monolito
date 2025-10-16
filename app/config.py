@@ -7,10 +7,13 @@ class Config:
     # Secret key para sessões
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'dev-secret-key-change-in-production'
     
-    # Configurações de banco de dados (exemplo para SQLite)
+    # Configurações de banco de dados
+    # Usar PostgreSQL se DATABASE_URL estiver definido, caso contrário usar SQLite
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///app.db'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_ECHO = os.environ.get('DEBUG', 'True') == 'True'  # Log das queries SQL
     
     # Outras configurações
-    DEBUG = True
+    DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+    FLASK_ENV = os.environ.get('FLASK_ENV', 'development')
 

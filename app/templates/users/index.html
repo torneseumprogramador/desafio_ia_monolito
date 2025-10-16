@@ -1,0 +1,151 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Usuários{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Gerenciamento de Usuários</h1>
+        <a href="{{ url_for('users.create') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Novo Usuário
+        </a>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="card">
+        <div class="card-body">
+            {% if users %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Telefone</th>
+                                <th>Status</th>
+                                <th>Criado em</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                                <tr>
+                                    <td>{{ user.id }}</td>
+                                    <td>{{ user.name }}</td>
+                                    <td>{{ user.username }}</td>
+                                    <td>{{ user.email }}</td>
+                                    <td>{{ user.phone or '-' }}</td>
+                                    <td>
+                                        {% if user.is_active %}
+                                            <span class="badge bg-success">Ativo</span>
+                                        {% else %}
+                                            <span class="badge bg-secondary">Inativo</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ user.created_at.strftime('%d/%m/%Y %H:%M') }}</td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <a href="{{ url_for('users.show', user_id=user.id) }}" 
+                                               class="btn btn-sm btn-info" title="Ver detalhes">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a href="{{ url_for('users.edit', user_id=user.id) }}" 
+                                               class="btn btn-sm btn-warning" title="Editar">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <form method="POST" 
+                                                  action="{{ url_for('users.toggle_status', user_id=user.id) }}" 
+                                                  style="display: inline;">
+                                                <button type="submit" 
+                                                        class="btn btn-sm btn-secondary" 
+                                                        title="{{ 'Desativar' if user.is_active else 'Ativar' }}">
+                                                    <i class="fas fa-{{ 'ban' if user.is_active else 'check' }}"></i>
+                                                </button>
+                                            </form>
+                                            <form method="POST" 
+                                                  action="{{ url_for('users.delete', user_id=user.id) }}" 
+                                                  onsubmit="return confirm('Tem certeza que deseja excluir este usuário?');"
+                                                  style="display: inline;">
+                                                <button type="submit" 
+                                                        class="btn btn-sm btn-danger" 
+                                                        title="Excluir">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Paginação -->
+                {% if total_pages > 1 %}
+                    <nav aria-label="Navegação de página">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item {{ 'disabled' if page == 1 else '' }}">
+                                <a class="page-link" 
+                                   href="{{ url_for('users.index', page=page-1, per_page=per_page) if page > 1 else '#' }}">
+                                    Anterior
+                                </a>
+                            </li>
+                            
+                            {% for p in range(1, total_pages + 1) %}
+                                {% if p == page %}
+                                    <li class="page-item active">
+                                        <span class="page-link">{{ p }}</span>
+                                    </li>
+                                {% elif p == 1 or p == total_pages or (p >= page - 2 and p <= page + 2) %}
+                                    <li class="page-item">
+                                        <a class="page-link" 
+                                           href="{{ url_for('users.index', page=p, per_page=per_page) }}">
+                                            {{ p }}
+                                        </a>
+                                    </li>
+                                {% elif p == page - 3 or p == page + 3 %}
+                                    <li class="page-item disabled">
+                                        <span class="page-link">...</span>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            
+                            <li class="page-item {{ 'disabled' if page == total_pages else '' }}">
+                                <a class="page-link" 
+                                   href="{{ url_for('users.index', page=page+1, per_page=per_page) if page < total_pages else '#' }}">
+                                    Próximo
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                {% endif %}
+
+                <div class="text-center text-muted">
+                    Mostrando {{ users|length }} de {{ total }} usuários
+                </div>
+            {% else %}
+                <div class="text-center py-5">
+                    <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                    <p class="text-muted">Nenhum usuário cadastrado</p>
+                    <a href="{{ url_for('users.create') }}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Cadastrar Primeiro Usuário
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
