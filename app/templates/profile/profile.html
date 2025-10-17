@@ -15,7 +15,7 @@
                     </h1>
                     <p class="text-muted mb-0">Gerencie suas informações pessoais</p>
                 </div>
-                <a href="{{ url_for('dashboard.edit_profile') }}" class="btn btn-primary">
+                <a href="{{ url_for('profile.edit_profile') }}" class="btn btn-primary">
                     <i class="fas fa-edit me-2"></i>
                     Editar Perfil
                 </a>
@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // Enviar requisição
-        fetch('{{ url_for("dashboard.change_password") }}', {
+        fetch('{{ url_for("profile.change_password") }}', {
             method: 'POST',
             body: formData,
             headers: {

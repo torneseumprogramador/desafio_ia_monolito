@@ -18,12 +18,13 @@ def create_app(config_class=Config):
     migrate.init_app(app, db)
     
     # Registrar Blueprints (Controllers)
-    from app.controllers import main_controller, user_controller, auth_controller, dashboard_controller
+    from app.controllers import main_controller, user_controller, auth_controller, dashboard_controller, profile_controller
     
     app.register_blueprint(main_controller.bp)
     app.register_blueprint(user_controller.bp)
     app.register_blueprint(auth_controller.bp)
     app.register_blueprint(dashboard_controller.bp)
+    app.register_blueprint(profile_controller.bp)
     
     return app
 
