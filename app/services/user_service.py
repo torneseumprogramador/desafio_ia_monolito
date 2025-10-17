@@ -159,3 +159,117 @@ class UserService:
             return None, 'Usuário ou senha inválidos'
         
         return user, None
+    
+    def get_user_statistics(self) -> Dict[str, Any]:
+        """
+        Retorna estatísticas dos usuários para o dashboard
+        """
+        from app.models.user import db
+        from sqlalchemy import func
+        from datetime import datetime, timedelta
+        
+        try:
+            # Total de usuários
+            total_users = self.repository.count()
+            
+            # Usuários ativos
+            active_users = db.session.query(User).filter(User.is_active == True).count()
+            
+            # Usuários inativos
+            inactive_users = total_users - active_users
+            
+            # Usuários criados hoje
+            today = datetime.utcnow().date()
+            users_today = db.session.query(User).filter(
+                func.date(User.created_at) == today
+            ).count()
+            
+            # Usuários criados na última semana
+            week_ago = datetime.utcnow() - timedelta(days=7)
+            users_week = db.session.query(User).filter(
+                User.created_at >= week_ago
+            ).count()
+            
+            # Usuários criados no último mês
+            month_ago = datetime.utcnow() - timedelta(days=30)
+            users_month = db.session.query(User).filter(
+                User.created_at >= month_ago
+            ).count()
+            
+            return {
+                'total_users': total_users,
+                'active_users': active_users,
+                'inactive_users': inactive_users,
+                'users_today': users_today,
+                'users_week': users_week,
+                'users_month': users_month,
+                'active_percentage': round((active_users / total_users * 100), 1) if total_users > 0 else 0
+            }
+        except Exception as e:
+            return {
+                'total_users': 0,
+                'active_users': 0,
+                'inactive_users': 0,
+                'users_today': 0,
+                'users_week': 0,
+                'users_month': 0,
+                'active_percentage': 0
+            }
+    
+    def get_monthly_user_registrations(self, months: int = 6) -> List[Dict[str, Any]]:
+        """
+        Retorna dados de registros mensais para gráficos
+        """
+        from app.models.user import db
+        from sqlalchemy import func
+        from datetime import datetime, timedelta
+        import calendar
+        
+        try:
+            # Calcular data inicial (X meses atrás)
+            end_date = datetime.utcnow()
+            start_date = end_date - timedelta(days=months * 30)
+            
+            # Query para contar usuários por mês
+            monthly_counts = db.session.query(
+                func.extract('year', User.created_at).label('year'),
+                func.extract('month', User.created_at).label('month'),
+                func.count(User.id).label('count')
+            ).filter(
+                User.created_at >= start_date
+            ).group_by(
+                func.extract('year', User.created_at),
+                func.extract('month', User.created_at)
+            ).order_by('year', 'month').all()
+            
+            # Criar dicionário com os dados
+            monthly_data = {}
+            for row in monthly_counts:
+                key = f"{int(row.year)}-{int(row.month):02d}"
+                monthly_data[key] = int(row.count)
+            
+            # Preencher meses sem dados com 0
+            result = []
+            current_date = start_date.replace(day=1)
+            
+            while current_date <= end_date.replace(day=1):
+                key = current_date.strftime('%Y-%m')
+                month_name = calendar.month_name[current_date.month][:3]  # Jan, Feb, etc.
+                
+                result.append({
+                    'month': month_name,
+                    'year': current_date.year,
+                    'count': monthly_data.get(key, 0),
+                    'full_date': current_date.strftime('%Y-%m')
+                })
+                
+                # Próximo mês
+                if current_date.month == 12:
+                    current_date = current_date.replace(year=current_date.year + 1, month=1)
+                else:
+                    current_date = current_date.replace(month=current_date.month + 1)
+            
+            return result
+            
+        except Exception as e:
+            return []

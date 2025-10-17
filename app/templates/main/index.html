@@ -1,24 +1,47 @@
 {% extends "layouts/authenticated.html" if session.get('user_id') else "layouts/guest.html" %}
 
 {% block content %}
-<div class="hero">
-    <h1>Bem-vindo à Minha Aplicação Flask!</h1>
-    <p class="subtitle">Um monolito moderno com templates</p>
-    
-    <div class="features">
-        <div class="feature-card">
-            <h3>🚀 Rápido</h3>
-            <p>Flask é leve e performático</p>
+{% if session.get('user_id') %}
+    <!-- Home para usuário logado - Redirecionar para dashboard -->
+    <script>
+        window.location.href = "{{ url_for('dashboard.dashboard') }}";
+    </script>
+{% else %}
+    <!-- Home para usuário não logado -->
+    <div class="hero">
+        <h1>Bem-vindo à Minha Aplicação Flask!</h1>
+        <p class="subtitle">Um monolito moderno com templates</p>
+        
+        <div class="features">
+            <div class="feature-card">
+                <h3>🚀 Rápido</h3>
+                <p>Flask é leve e performático</p>
+            </div>
+            <div class="feature-card">
+                <h3>🎨 Moderno</h3>
+                <p>Design limpo e responsivo</p>
+            </div>
+            <div class="feature-card">
+                <h3>📦 Organizado</h3>
+                <p>Estrutura bem definida</p>
+            </div>
         </div>
-        <div class="feature-card">
-            <h3>🎨 Moderno</h3>
-            <p>Design limpo e responsivo</p>
-        </div>
-        <div class="feature-card">
-            <h3>📦 Organizado</h3>
-            <p>Estrutura bem definida</p>
+        
+        <!-- Call to Action -->
+        <div class="text-center mt-5">
+            <h3 class="mb-3">Pronto para começar?</h3>
+            <div class="d-flex gap-3 justify-content-center">
+                <a href="{{ url_for('auth.login') }}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-sign-in-alt me-2"></i>
+                    Fazer Login
+                </a>
+                <a href="{{ url_for('auth.register') }}" class="btn btn-success btn-lg">
+                    <i class="fas fa-user-plus me-2"></i>
+                    Criar Conta
+                </a>
+            </div>
         </div>
     </div>
-</div>
+{% endif %}
 {% endblock %}
 

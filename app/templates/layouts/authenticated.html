@@ -34,19 +34,30 @@
                         <i class="fas fa-user-circle fa-lg me-2"></i>
                         <span class="fw-bold">{{ session.get('name', 'Usuário') }}</span>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
-                        <li>
-                            <div class="px-3 py-2 text-muted small">
-                                <i class="fas fa-at"></i> {{ session.get('username', '') }}
-                            </div>
-                        </li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li>
-                            <a class="dropdown-item text-danger" href="{{ url_for('auth.logout') }}">
-                                <i class="fas fa-sign-out-alt"></i> Sair
-                            </a>
-                        </li>
-                    </ul>
+                            <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
+                                <li>
+                                    <div class="px-3 py-2 text-muted small">
+                                        <i class="fas fa-at"></i> {{ session.get('username', '') }}
+                                    </div>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ url_for('dashboard.dashboard') }}">
+                                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ url_for('dashboard.profile') }}">
+                                        <i class="fas fa-user-circle"></i> Meu Perfil
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item text-danger" href="{{ url_for('auth.logout') }}">
+                                        <i class="fas fa-sign-out-alt"></i> Sair
+                                    </a>
+                                </li>
+                            </ul>
                 </li>
             </ul>
         </div>
