@@ -143,18 +143,8 @@
 {% block extra_js %}
 <script src="{{ url_for('static', filename='js/masks.js') }}"></script>
 <script>
-    // Aplicar máscara de telefone
-    const phoneInput = document.getElementById('phone');
-    if (phoneInput) {
-        phoneInput.addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length <= 11) {
-                value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
-                value = value.replace(/(\d)(\d{4})$/, '$1-$2');
-            }
-            e.target.value = value;
-        });
-    }
+    // Aplicar máscara de telefone usando a função global
+    PhoneMask.init('phone');
 
     // Validar se as senhas coincidem
     const form = document.querySelector('form');
