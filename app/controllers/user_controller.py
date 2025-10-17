@@ -4,7 +4,7 @@ Responsável pelas rotas e requisições HTTP relacionadas a usuários
 """
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 from app.services.user_service import UserService
-from app.utils.decorators import login_required
+from app.middleware import login_required
 
 bp = Blueprint('users', __name__, url_prefix='/users')
 user_service = UserService()

@@ -1,5 +1,6 @@
 """
-Decoradores e Middlewares da Aplicação
+Middleware de Autenticação
+Responsável por proteger rotas que requerem autenticação ou que devem ser acessadas apenas por visitantes
 """
 from functools import wraps
 from flask import session, redirect, url_for, flash, request
@@ -7,8 +8,14 @@ from flask import session, redirect, url_for, flash, request
 
 def login_required(f):
     """
-    Decorator para proteger rotas que requerem autenticação.
+    Middleware para proteger rotas que requerem autenticação.
     Redireciona para a página de login se o usuário não estiver autenticado.
+    
+    Args:
+        f: Função da rota a ser protegida
+        
+    Returns:
+        Função decorada que verifica autenticação antes de executar a rota
     """
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -23,8 +30,14 @@ def login_required(f):
 
 def guest_only(f):
     """
-    Decorator para rotas que só devem ser acessadas por usuários NÃO autenticados.
+    Middleware para rotas que só devem ser acessadas por usuários NÃO autenticados.
     Redireciona para a home se o usuário já estiver logado.
+    
+    Args:
+        f: Função da rota a ser protegida
+        
+    Returns:
+        Função decorada que verifica se o usuário não está autenticado
     """
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -33,4 +46,3 @@ def guest_only(f):
             return redirect(url_for('main.index'))
         return f(*args, **kwargs)
     return decorated_function
-

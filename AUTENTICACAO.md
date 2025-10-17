@@ -37,14 +37,14 @@ O sistema de autenticação utiliza sessões do Flask para gerenciar o login de 
   - Exibe mensagem de despedida
   - Redireciona para a página inicial
 
-## 🛡️ Middlewares/Decoradores
+## 🛡️ Middlewares de Autenticação
 
 ### @login_required
 Protege rotas que requerem autenticação.
 
 **Uso**:
 ```python
-from app.utils.decorators import login_required
+from app.middleware import login_required
 
 @bp.route('/protected')
 @login_required
@@ -63,7 +63,7 @@ Protege rotas que só devem ser acessadas por usuários NÃO autenticados (ex: l
 
 **Uso**:
 ```python
-from app.utils.decorators import guest_only
+from app.middleware import guest_only
 
 @bp.route('/login')
 @guest_only
@@ -173,7 +173,6 @@ O menu de navegação adapta-se automaticamente baseado no estado de autenticaç
 - Home
 - Sobre
 - Login
-- Cadastrar (botão verde)
 
 **Usuário autenticado** (Layout Authenticated):
 - Home
@@ -183,12 +182,12 @@ O menu de navegação adapta-se automaticamente baseado no estado de autenticaç
 
 ## 🔧 Como Adicionar Novas Rotas Protegidas
 
-1. Importe o decorator:
+1. Importe o middleware:
 ```python
-from app.utils.decorators import login_required
+from app.middleware import login_required
 ```
 
-2. Adicione o decorator à rota:
+2. Adicione o middleware à rota:
 ```python
 @bp.route('/nova-rota')
 @login_required

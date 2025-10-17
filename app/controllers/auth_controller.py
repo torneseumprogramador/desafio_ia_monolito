@@ -4,7 +4,7 @@ Responsável pelas rotas de login, logout e registro
 """
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from app.services.user_service import UserService
-from app.utils.decorators import guest_only
+from app.middleware import guest_only
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 user_service = UserService()
