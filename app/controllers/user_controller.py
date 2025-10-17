@@ -4,12 +4,14 @@ Responsável pelas rotas e requisições HTTP relacionadas a usuários
 """
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 from app.services.user_service import UserService
+from app.utils.decorators import login_required
 
 bp = Blueprint('users', __name__, url_prefix='/users')
 user_service = UserService()
 
 
 @bp.route('/')
+@login_required
 def index():
     """Lista todos os usuários"""
     page = request.args.get('page', 1, type=int)
@@ -31,6 +33,7 @@ def index():
 
 
 @bp.route('/create', methods=['GET', 'POST'])
+@login_required
 def create():
     """Cria um novo usuário"""
     if request.method == 'POST':
@@ -56,6 +59,7 @@ def create():
 
 
 @bp.route('/<int:user_id>')
+@login_required
 def show(user_id):
     """Exibe detalhes de um usuário"""
     user = user_service.get_user_by_id(user_id)
@@ -68,6 +72,7 @@ def show(user_id):
 
 
 @bp.route('/<int:user_id>/edit', methods=['GET', 'POST'])
+@login_required
 def edit(user_id):
     """Edita um usuário existente"""
     user = user_service.get_user_by_id(user_id)
@@ -103,6 +108,7 @@ def edit(user_id):
 
 
 @bp.route('/<int:user_id>/delete', methods=['POST'])
+@login_required
 def delete(user_id):
     """Remove um usuário"""
     success, error = user_service.delete_user(user_id)
@@ -116,6 +122,7 @@ def delete(user_id):
 
 
 @bp.route('/<int:user_id>/toggle-status', methods=['POST'])
+@login_required
 def toggle_status(user_id):
     """Ativa/Desativa um usuário"""
     user, error = user_service.toggle_user_status(user_id)
@@ -131,6 +138,7 @@ def toggle_status(user_id):
 
 # API Endpoints (opcional)
 @bp.route('/api', methods=['GET'])
+@login_required
 def api_list():
     """API: Lista todos os usuários"""
     users, total = user_service.get_all_users(page=1, per_page=100)
@@ -141,6 +149,7 @@ def api_list():
 
 
 @bp.route('/api/<int:user_id>', methods=['GET'])
+@login_required
 def api_get(user_id):
     """API: Busca um usuário por ID"""
     user = user_service.get_user_by_id(user_id)

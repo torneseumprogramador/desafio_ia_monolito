@@ -138,3 +138,24 @@ class UserService:
     def count_users(self) -> int:
         """Retorna o total de usuários cadastrados"""
         return self.repository.count()
+    
+    def authenticate(self, username_or_email: str, password: str) -> tuple[Optional[User], Optional[str]]:
+        """
+        Autentica um usuário com username/email e senha
+        Retorna: (usuario, erro)
+        """
+        # Tentar buscar por username ou email
+        user = self.repository.find_by_username(username_or_email)
+        if not user:
+            user = self.repository.find_by_email(username_or_email)
+        
+        if not user:
+            return None, 'Usuário ou senha inválidos'
+        
+        if not user.is_active:
+            return None, 'Usuário inativo. Entre em contato com o administrador.'
+        
+        if not user.check_password(password):
+            return None, 'Usuário ou senha inválidos'
+        
+        return user, None

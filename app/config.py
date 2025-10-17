@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 
 
 class Config:
@@ -6,6 +7,9 @@ class Config:
     
     # Secret key para sessões
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'dev-secret-key-change-in-production'
+    
+    # Configurações de sessão
+    PERMANENT_SESSION_LIFETIME = timedelta(days=7)  # Sessão dura 7 dias
     
     # Configurações de banco de dados
     # Usar PostgreSQL se DATABASE_URL estiver definido, caso contrário usar SQLite

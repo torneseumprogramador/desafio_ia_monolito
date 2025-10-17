@@ -1,4 +1,4 @@
-{% extends "layouts/base.html" %}
+{% extends "layouts/authenticated.html" if session.get('user_id') else "layouts/guest.html" %}
 
 {% block content %}
 <div class="about-section">

@@ -1,0 +1,77 @@
+{% extends "layouts/guest.html" %}
+
+{% block title %}Login - Minha Aplicação{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-sm">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-sign-in-alt fa-3x text-primary mb-3"></i>
+                        <h2 class="card-title">Login</h2>
+                        <p class="text-muted">Entre com suas credenciais</p>
+                    </div>
+
+                    <form method="POST" action="{{ url_for('auth.login') }}">
+                        <div class="mb-3">
+                            <label for="username_or_email" class="form-label">
+                                <i class="fas fa-user"></i> Usuário ou Email
+                            </label>
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                id="username_or_email" 
+                                name="username_or_email" 
+                                value="{{ username_or_email if username_or_email else '' }}"
+                                placeholder="Digite seu usuário ou email"
+                                required
+                                autofocus
+                            >
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">
+                                <i class="fas fa-lock"></i> Senha
+                            </label>
+                            <input 
+                                type="password" 
+                                class="form-control" 
+                                id="password" 
+                                name="password" 
+                                placeholder="Digite sua senha"
+                                required
+                            >
+                        </div>
+
+                        <div class="d-grid gap-2 mb-3">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-sign-in-alt"></i> Entrar
+                            </button>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <div class="text-center">
+                            <p class="mb-0">
+                                Não tem uma conta? 
+                                <a href="{{ url_for('auth.register') }}" class="text-decoration-none">
+                                    <strong>Cadastre-se aqui</strong>
+                                </a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="text-center mt-3">
+                <a href="{{ url_for('main.index') }}" class="text-muted text-decoration-none">
+                    <i class="fas fa-arrow-left"></i> Voltar para a Home
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
