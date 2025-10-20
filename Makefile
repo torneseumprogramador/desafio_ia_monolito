@@ -1,4 +1,4 @@
-.PHONY: help db-start db-stop db-restart db-logs db-status db-init db-migrate db-upgrade db-downgrade app-start app-stop install setup clean
+.PHONY: help db-start db-stop db-restart db-logs db-status db-init db-migrate db-upgrade db-downgrade app-start app-stop install setup clean test test-unit test-integration test-cov test-cov-html
 
 # Variáveis
 PYTHON = python3
@@ -30,6 +30,13 @@ help:
 	@echo ""
 	@echo "Manutenção:"
 	@echo "  make clean         - Remove arquivos temporários e cache"
+	@echo ""
+	@echo "Testes:"
+	@echo "  make test          - Roda testes unitários e de integração"
+	@echo "  make test-unit     - Roda apenas testes unitários"
+	@echo "  make test-integration - Roda apenas testes de integração"
+	@echo "  make test-cov      - Roda testes com cobertura no terminal"
+	@echo "  make test-cov-html - Roda testes com cobertura e gera htmlcov/"
 
 # Instalar dependências
 install:
@@ -142,4 +149,45 @@ clean:
 	@find . -type f -name "*.pyo" -delete 2>/dev/null || true
 	@find . -type d -name "*.egg-info" -exec rm -rf {} + 2>/dev/null || true
 	@echo "✅ Limpeza concluída!"
+
+# Testes
+test:
+	@echo "🧪 Rodando toda a suíte de testes (unit + integration)..."
+	@if [ ! -d "$(VENV)" ]; then \
+		echo "⚠️  Virtual environment não encontrado. Execute: python3 -m venv venv"; \
+		exit 1; \
+	fi
+	@. $(VENV)/bin/activate && python -m pytest tests/ -v
+
+test-unit:
+	@echo "🧪 Rodando testes unitários..."
+	@if [ ! -d "$(VENV)" ]; then \
+		echo "⚠️  Virtual environment não encontrado. Execute: python3 -m venv venv"; \
+		exit 1; \
+	fi
+	@. $(VENV)/bin/activate && python -m pytest tests/unit/ -v
+
+test-integration:
+	@echo "🧪 Rodando testes de integração..."
+	@if [ ! -d "$(VENV)" ]; then \
+		echo "⚠️  Virtual environment não encontrado. Execute: python3 -m venv venv"; \
+		exit 1; \
+	fi
+	@. $(VENV)/bin/activate && python -m pytest tests/integration/ -v
+
+test-cov:
+	@echo "🧪 Rodando testes com cobertura (terminal)..."
+	@if [ ! -d "$(VENV)" ]; then \
+		echo "⚠️  Virtual environment não encontrado. Execute: python3 -m venv venv"; \
+		exit 1; \
+	fi
+	@. $(VENV)/bin/activate && python -m pytest tests/ -v --cov=app --cov-report=term-missing
+
+test-cov-html:
+	@echo "🧪 Rodando testes com cobertura (HTML em htmlcov/)..."
+	@if [ ! -d "$(VENV)" ]; then \
+		echo "⚠️  Virtual environment não encontrado. Execute: python3 -m venv venv"; \
+		exit 1; \
+	fi
+	@. $(VENV)/bin/activate && python -m pytest tests/ -v --cov=app --cov-report=html --cov-report=term-missing
 
