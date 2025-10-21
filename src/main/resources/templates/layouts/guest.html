@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR" th:fragment="layout">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR" th:fragment="layout(title, content)">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -52,7 +52,9 @@
             <!-- Block: flash_messages --><!-- End Block -->
         </div>
         
-        <!-- Block: content --><!-- End Block -->
+        <!-- Block: content -->
+        <div th:replace="${content}"></div>
+        <!-- End Block -->
     </main>
 
     <footer class="bg-dark text-white text-center py-4 mt-5">
