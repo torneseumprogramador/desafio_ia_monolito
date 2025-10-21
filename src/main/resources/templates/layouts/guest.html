@@ -27,17 +27,17 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a th:href="@{/main/index}" class="nav-link" th:classappend="${#httpServletRequest.requestURI == '/main/index' ? 'active' : ''}">
+                        <a th:href="@{/main/index}" class="nav-link">
                             <i class="fas fa-home"></i> Home
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a th:href="@{/main/about}" class="nav-link" th:classappend="${#httpServletRequest.requestURI == '/main/about' ? 'active' : ''}">
+                        <a th:href="@{/main/about}" class="nav-link">
                             <i class="fas fa-info-circle"></i> Sobre
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a th:href="@{/auth/login}" class="nav-link" th:classappend="${#httpServletRequest.requestURI == '/auth/login' ? 'active' : ''}">
+                        <a th:href="@{/auth/login}" class="nav-link">
                             <i class="fas fa-sign-in-alt"></i> Login
                         </a>
                     </li>
