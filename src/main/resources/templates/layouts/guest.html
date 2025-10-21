@@ -1,34 +1,71 @@
-<!-- Layout: layouts/base.html -->
-
-<!-- Block: navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-        <a href="@{/main/index}" class="navbar-brand">
-            <i class="fas fa-layer-group"></i> Monolito App
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a href="@{/main/index}" class="nav-link <th:block th:if="${#httpServletRequest.requestURI == 'main.index'}">active</th:block>">
-                        <i class="fas fa-home"></i> Home
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="@{/main/about}" class="nav-link <th:block th:if="${#httpServletRequest.requestURI == 'main.about'}">active</th:block>">
-                        <i class="fas fa-info-circle"></i> Sobre
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="@{/auth/login}" class="nav-link <th:block th:if="${#httpServletRequest.requestURI == 'auth.login'}">active</th:block>">
-                        <i class="fas fa-sign-in-alt"></i> Login
-                    </a>
-                </li>
-            </ul>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR" th:fragment="layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title} + ' - Minha Aplicação'">Minha Aplicação</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <!-- Block: extra_css --><!-- End Block -->
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a th:href="@{/main/index}" class="navbar-brand">
+                <i class="fas fa-layer-group"></i> Monolito App
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a th:href="@{/main/index}" class="nav-link" th:classappend="${#httpServletRequest.requestURI == '/main/index' ? 'active' : ''}">
+                            <i class="fas fa-home"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/main/about}" class="nav-link" th:classappend="${#httpServletRequest.requestURI == '/main/about' ? 'active' : ''}">
+                            <i class="fas fa-info-circle"></i> Sobre
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/auth/login}" class="nav-link" th:classappend="${#httpServletRequest.requestURI == '/auth/login' ? 'active' : ''}">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
-<!-- End Block -->
+    </nav>
+
+    <main>
+        <!-- Flash Messages -->
+        <div class="container mt-3">
+            <!-- Block: flash_messages --><!-- End Block -->
+        </div>
+        
+        <!-- Block: content --><!-- End Block -->
+    </main>
+
+    <footer class="bg-dark text-white text-center py-4 mt-5">
+        <div class="container">
+            <p class="mb-0">&copy; 2024 Monolito App. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script th:src="@{/js/main.js}"></script>
+    <!-- Block: extra_js --><!-- End Block -->
+</body>
+</html>
 

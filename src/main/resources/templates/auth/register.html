@@ -1,8 +1,10 @@
-<!-- Layout: layouts/guest.html -->
-
-<!-- Block: title -->Cadastro - Minha Aplicação<!-- End Block -->
-
-<!-- Block: content -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR" th:replace="~{layouts/guest :: layout(~{::title}, ~{::content})}">
+<head>
+    <title>Cadastro</title>
+</head>
+<body>
+    <div th:fragment="content">
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
@@ -24,7 +26,7 @@
                                 class="form-control" 
                                 id="name" 
                                 name="name" 
-                                value="<span th:text="${data.name if data else ''}"></span>"
+                                th:value="${data.name}"
                                 placeholder="Digite seu nome completo"
                                 required
                                 autofocus
@@ -41,7 +43,7 @@
                                     class="form-control" 
                                     id="username" 
                                     name="username" 
-                                    value="<span th:text="${data.username if data else ''}"></span>"
+                                    th:value="${data.username}"
                                     placeholder="Escolha um nome de usuário"
                                     required
                                 >
@@ -56,7 +58,7 @@
                                     class="form-control" 
                                     id="email" 
                                     name="email" 
-                                    value="<span th:text="${data.email if data else ''}"></span>"
+                                    th:value="${data.email}"
                                     placeholder="seu@email.com"
                                     required
                                 >
@@ -72,7 +74,7 @@
                                 class="form-control" 
                                 id="phone" 
                                 name="phone" 
-                                value="<span th:text="${data.phone if data else ''}"></span>"
+                                th:value="${data.phone}"
                                 placeholder="(00) 00000-0000"
                             >
                         </div>
@@ -122,7 +124,7 @@
                             <p class="mb-3 text-muted">
                                 Já tem uma conta?
                             </p>
-                            <a href="@{/auth/login}" class="btn btn-outline-primary btn-lg w-100">
+                            <a th:href="@{/auth/login}" class="btn btn-outline-primary btn-lg w-100">
                                 <i class="fas fa-sign-in-alt"></i> Fazer Login
                             </a>
                         </div>
@@ -131,33 +133,35 @@
             </div>
 
             <div class="text-center mt-3">
-                <a href="@{/main/index}" class="text-muted text-decoration-none">
+                <a th:href="@{/main/index}" class="text-muted text-decoration-none">
                     <i class="fas fa-arrow-left"></i> Voltar para a Home
                 </a>
             </div>
         </div>
     </div>
 </div>
-<!-- End Block -->
+    </div>
+    
+    <!-- Block: extra_js -->
+    <script th:src="@{/js/masks.js}"></script>
+    <script>
+        // Aplicar máscara de telefone usando a função global
+        PhoneMask.init('phone');
 
-<!-- Block: extra_js -->
-<script src="@{/static}"></script>
-<script>
-    // Aplicar máscara de telefone usando a função global
-    PhoneMask.init('phone');
+        // Validar se as senhas coincidem
+        const form = document.querySelector('form');
+        const password = document.getElementById('password');
+        const passwordConfirm = document.getElementById('password_confirm');
 
-    // Validar se as senhas coincidem
-    const form = document.querySelector('form');
-    const password = document.getElementById('password');
-    const passwordConfirm = document.getElementById('password_confirm');
-
-    form.addEventListener('submit', function(e) {
-        if (password.value !== passwordConfirm.value) {
-            e.preventDefault();
-            alert('As senhas não coincidem!');
-            passwordConfirm.focus();
-        }
-    });
-</script>
-<!-- End Block -->
+        form.addEventListener('submit', function(e) {
+            if (password.value !== passwordConfirm.value) {
+                e.preventDefault();
+                alert('As senhas não coincidem!');
+                passwordConfirm.focus();
+            }
+        });
+    </script>
+    <!-- End Block -->
+</body>
+</html>
 
