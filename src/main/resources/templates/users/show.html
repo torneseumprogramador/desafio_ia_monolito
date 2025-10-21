@@ -1,0 +1,116 @@
+<!-- Layout: layouts/authenticated.html -->
+
+<!-- Block: title -->Detalhes do Usuário<!-- End Block -->
+
+<!-- Block: content -->
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h2 class="mb-0">Detalhes do Usuário</h2>
+                    <div>
+                        <th:block th:if="${user.is_active}">
+                            <span class="badge bg-success">Ativo</span>
+                        </th:block><th:block th:unless="${...}">
+                            <span class="badge bg-secondary">Inativo</span>
+                        </th:block>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12 mb-4">
+                            <div class="text-center mb-4">
+                                <div class="avatar-circle bg-primary text-white d-inline-flex align-items-center justify-content-center" 
+                                     style="width: 100px; height: 100px; border-radius: 50%; font-size: 2.5rem;">
+                                    <span th:text="${user.name[0].upper()}"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-muted">ID</label>
+                            <p class="fw-bold">#<span th:text="${user.id}"></span></p>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-muted">Nome Completo</label>
+                            <p class="fw-bold"><span th:text="${user.name}"></span></p>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-muted">Username</label>
+                            <p class="fw-bold"><span th:text="${user.username}"></span></p>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-muted">Email</label>
+                            <p class="fw-bold">
+                                <i class="fas fa-envelope"></i> <span th:text="${user.email}"></span>
+                            </p>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-muted">Telefone</label>
+                            <p class="fw-bold">
+                                <th:block th:if="${user.phone}">
+                                    <i class="fas fa-phone"></i> <span th:text="${user.phone}"></span>
+                                </th:block><th:block th:unless="${...}">
+                                    <span class="text-muted">Não informado</span>
+                                </th:block>
+                            </p>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-muted">Status</label>
+                            <p class="fw-bold">
+                                <th:block th:if="${user.is_active}">
+                                    <i class="fas fa-check-circle text-success"></i> Ativo
+                                </th:block><th:block th:unless="${...}">
+                                    <i class="fas fa-times-circle text-danger"></i> Inativo
+                                </th:block>
+                            </p>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-muted">Data de Cadastro</label>
+                            <p class="fw-bold">
+                                <i class="fas fa-calendar"></i> <span th:text="${user.created_at.strftime('%d/%m/%Y às %H:%M')}"></span>
+                            </p>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label text-muted">Última Atualização</label>
+                            <p class="fw-bold">
+                                <i class="fas fa-clock"></i> <span th:text="${user.updated_at.strftime('%d/%m/%Y às %H:%M')}"></span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="@{/users/index}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Voltar
+                        </a>
+                        <div>
+                            <a href="@{/users.edit}" class="btn btn-warning">
+                                <i class="fas fa-edit"></i> Editar
+                            </a>
+                            <form method="POST" 
+                                  action="@{/users.delete}" 
+                                  onsubmit="return confirm('Tem certeza que deseja excluir este usuário?');"
+                                  style="display: inline;">
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="fas fa-trash"></i> Excluir
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Block -->
+

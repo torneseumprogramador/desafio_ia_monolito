@@ -1,27 +1,19 @@
-<!DOCTYPE html>
-<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{layouts/base :: head('Sobre')}"></head>
-<body>
-    <nav th:replace="~{layouts/base :: navbar}"></nav>
+{% extends "layouts/authenticated.html" if ${session.user_id} else "layouts/guest.html" %}
 
-    <main class="container">
-        <div class="about-section">
-            <h1>Sobre o Projeto</h1>
-            <p>Este é um projeto monolito desenvolvido com Spring Boot.</p>
-
-            <div class="info-box">
-                <h2>Tecnologias Utilizadas</h2>
-                <ul>
-                    <li>Java 17</li>
-                    <li>Spring Boot 3.0</li>
-                    <li>Thymeleaf Templates</li>
-                </ul>
-            </div>
-        </div>
-    </main>
-
-    <footer th:replace="~{layouts/base :: footer}"></footer>
+<!-- Block: content -->
+<div class="about-section">
+    <h1>Sobre o Projeto</h1>
+    <p>Este é um projeto monolito desenvolvido com Flask.</p>
     
-    <div th:replace="~{layouts/base :: scripts}"></div>
-</body>
-</html>
+    <div class="info-box">
+        <h2>Tecnologias Utilizadas</h2>
+        <ul>
+            <li>Python 3.13</li>
+            <li>Flask 3.0</li>
+            <li>Jinja2 Templates</li>
+            <li>SQLAlchemy (opcional)</li>
+        </ul>
+    </div>
+</div>
+<!-- End Block -->
+

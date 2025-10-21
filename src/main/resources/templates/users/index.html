@@ -1,0 +1,140 @@
+<!-- Layout: layouts/authenticated.html -->
+
+<!-- Block: title -->Usuários<!-- End Block -->
+
+<!-- Block: content -->
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Gerenciamento de Usuários</h1>
+        <a href="@{/users/create}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Novo Usuário
+        </a>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <th:block th:if="${users}">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Telefone</th>
+                                <th>Status</th>
+                                <th>Criado em</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <th:block th:each="user : ${users}">
+                                <tr>
+                                    <td><span th:text="${user.id}"></span></td>
+                                    <td><span th:text="${user.name}"></span></td>
+                                    <td><span th:text="${user.username}"></span></td>
+                                    <td><span th:text="${user.email}"></span></td>
+                                    <td><span th:text="${user.phone or '-'}"></span></td>
+                                    <td>
+                                        <th:block th:if="${user.is_active}">
+                                            <span class="badge bg-success">Ativo</span>
+                                        </th:block><th:block th:unless="${...}">
+                                            <span class="badge bg-secondary">Inativo</span>
+                                        </th:block>
+                                    </td>
+                                    <td><span th:text="${user.created_at.strftime('%d/%m/%Y %H:%M')}"></span></td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <a href="@{/users.show}" 
+                                               class="btn btn-sm btn-info" title="Ver detalhes">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a href="@{/users.edit}" 
+                                               class="btn btn-sm btn-warning" title="Editar">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <form method="POST" 
+                                                  action="@{/users.toggle_status}" 
+                                                  style="display: inline;">
+                                                <button type="submit" 
+                                                        class="btn btn-sm btn-secondary" 
+                                                        title="<span th:text="${'Desativar' if user.is_active else 'Ativar'}"></span>">
+                                                    <i class="fas fa-<span th:text="${'ban' if user.is_active else 'check'}"></span>"></i>
+                                                </button>
+                                            </form>
+                                            <form method="POST" 
+                                                  action="@{/users.delete}" 
+                                                  onsubmit="return confirm('Tem certeza que deseja excluir este usuário?');"
+                                                  style="display: inline;">
+                                                <button type="submit" 
+                                                        class="btn btn-sm btn-danger" 
+                                                        title="Excluir">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </th:block>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Paginação -->
+                <th:block th:if="${total_pages > 1}">
+                    <nav aria-label="Navegação de página">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item <span th:text="${'disabled' if page == 1 else ''}"></span>">
+                                <a class="page-link" 
+                                   href="<span th:text="${url_for('users.index', page=page-1, per_page=per_page) if page > 1 else '#'}"></span>">
+                                    Anterior
+                                </a>
+                            </li>
+                            
+                            <th:block th:each="p : ${range(1, total_pages + 1)}">
+                                <th:block th:if="${p == page}">
+                                    <li class="page-item active">
+                                        <span class="page-link"><span th:text="${p}"></span></span>
+                                    </li>
+                                {% elif p == 1 or p == total_pages or (p >= page - 2 and p <= page + 2) %}
+                                    <li class="page-item">
+                                        <a class="page-link" 
+                                           href="@{/users.index}">
+                                            <span th:text="${p}"></span>
+                                        </a>
+                                    </li>
+                                {% elif p == page - 3 or p == page + 3 %}
+                                    <li class="page-item disabled">
+                                        <span class="page-link">...</span>
+                                    </li>
+                                </th:block>
+                            </th:block>
+                            
+                            <li class="page-item <span th:text="${'disabled' if page == total_pages else ''}"></span>">
+                                <a class="page-link" 
+                                   href="<span th:text="${url_for('users.index', page=page+1, per_page=per_page) if page < total_pages else '#'}"></span>">
+                                    Próximo
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </th:block>
+
+                <div class="text-center text-muted">
+                    Mostrando <span th:text="${users|length}"></span> de <span th:text="${total}"></span> usuários
+                </div>
+            </th:block><th:block th:unless="${...}">
+                <div class="text-center py-5">
+                    <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                    <p class="text-muted">Nenhum usuário cadastrado</p>
+                    <a href="@{/users/create}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Cadastrar Primeiro Usuário
+                    </a>
+                </div>
+            </th:block>
+        </div>
+    </div>
+</div>
+<!-- End Block -->
+

@@ -1,0 +1,56 @@
+<!-- Layout: layouts/authenticated.html -->
+
+<!-- Block: title -->Editar Usuário<!-- End Block -->
+
+<!-- Block: content -->
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-dark">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-user-edit me-2 fs-4"></i>
+                            <h2 class="mb-0">Editar Usuário</h2>
+                        </div>
+                        <th:block th:if="${user.is_active}">
+                            <span class="badge bg-success">
+                                <i class="fas fa-check-circle"></i> Ativo
+                            </span>
+                        </th:block><th:block th:unless="${...}">
+                            <span class="badge bg-secondary">
+                                <i class="fas fa-times-circle"></i> Inativo
+                            </span>
+                        </th:block>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning border-start border-warning border-4 mb-4">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-exclamation-triangle me-2 fs-5"></i>
+                            <div>
+                                <strong>Atenção:</strong> Você está editando o usuário <strong><span th:text="${user.username}"></span></strong>.
+                                <br>
+                                <small>Certifique-se de revisar as alterações antes de salvar.</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    {# Include do Partial Form #}
+                    {% set action_url = url_for('users.edit', user_id=user.id) %}
+                    {% set button_text = 'Atualizar Usuário' %}
+                    {% set is_edit_mode = true %}
+                    {% include 'users/_form.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Block -->
+
+<!-- Block: extra_js -->
+<!-- Scripts para formulário de usuário -->
+<script src="@{/static}"></script>
+<script src="@{/static}"></script>
+<script src="@{/static}"></script>
+<!-- End Block -->

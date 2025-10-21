@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: desafio-ia-monolito
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL=jdbc:postgresql://db:5432/monolito
+      - DATABASE_USERNAME=monolito_user
+      - DATABASE_PASSWORD=monolito_pass
+      - DATABASE_DRIVER=org.postgresql.Driver
+      - HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
+    depends_on:
+      - db
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  db:
+    image: postgres:15-alpine
+    container_name: monolito-postgres
+    environment:
+      - POSTGRES_DB=monolito
+      - POSTGRES_USER=monolito_user
+      - POSTGRES_PASSWORD=monolito_pass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U monolito_user -d monolito"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge
+

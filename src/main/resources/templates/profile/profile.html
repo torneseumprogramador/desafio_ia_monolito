@@ -1,0 +1,223 @@
+<!-- Layout: layouts/authenticated.html -->
+
+<!-- Block: title -->Meu Perfil - Minha Aplicação<!-- End Block -->
+
+<!-- Block: content -->
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Header do Perfil -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="h2 mb-1">
+                        <i class="fas fa-user-circle text-primary me-2"></i>
+                        Meu Perfil
+                    </h1>
+                    <p class="text-muted mb-0">Gerencie suas informações pessoais</p>
+                </div>
+                <a href="@{/profile/edit_profile}" class="btn btn-primary">
+                    <i class="fas fa-edit me-2"></i>
+                    Editar Perfil
+                </a>
+            </div>
+
+            <!-- Card do Perfil -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="row">
+                        <!-- Avatar e Info Básica -->
+                        <div class="col-md-4 text-center mb-4">
+                            <div class="mb-3">
+                                <div class="avatar-circle bg-primary text-white d-inline-flex align-items-center justify-content-center" 
+                                     style="width: 120px; height: 120px; border-radius: 50%; font-size: 3rem;">
+                                    <span th:text="${user.name[0].upper()}"></span>
+                                </div>
+                            </div>
+                            <h4 class="fw-bold mb-1"><span th:text="${user.name}"></span></h4>
+                            <p class="text-muted mb-2">@<span th:text="${user.username}"></span></p>
+                            <th:block th:if="${user.is_active}">
+                                <span class="badge bg-success">
+                                    <i class="fas fa-check-circle me-1"></i>
+                                    Ativo
+                                </span>
+                            </th:block><th:block th:unless="${...}">
+                                <span class="badge bg-secondary">
+                                    <i class="fas fa-times-circle me-1"></i>
+                                    Inativo
+                                </span>
+                            </th:block>
+                        </div>
+
+                        <!-- Informações Detalhadas -->
+                        <div class="col-md-8">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label text-muted small">Nome Completo</label>
+                                    <p class="fw-bold mb-0"><span th:text="${user.name}"></span></p>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label text-muted small">Username</label>
+                                    <p class="fw-bold mb-0">@<span th:text="${user.username}"></span></p>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label text-muted small">Email</label>
+                                    <p class="fw-bold mb-0">
+                                        <i class="fas fa-envelope text-primary me-2"></i>
+                                        <span th:text="${user.email}"></span>
+                                    </p>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label text-muted small">Telefone</label>
+                                    <p class="fw-bold mb-0">
+                                        <th:block th:if="${user.phone}">
+                                            <i class="fas fa-phone text-primary me-2"></i>
+                                            <span th:text="${user.phone}"></span>
+                                        </th:block><th:block th:unless="${...}">
+                                            <span class="text-muted">Não informado</span>
+                                        </th:block>
+                                    </p>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label text-muted small">Membro desde</label>
+                                    <p class="fw-bold mb-0">
+                                        <i class="fas fa-calendar text-primary me-2"></i>
+                                        <span th:text="${user.created_at.strftime('%d/%m/%Y')}"></span>
+                                    </p>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label text-muted small">Última atualização</label>
+                                    <p class="fw-bold mb-0">
+                                        <i class="fas fa-clock text-primary me-2"></i>
+                                        <span th:text="${user.updated_at.strftime('%d/%m/%Y às %H:%M')}"></span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card de Alterar Senha -->
+            <div class="card border-0 shadow-sm mt-4">
+                <div class="card-header bg-white border-0">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-lock text-warning me-2"></i>
+                        Alterar Senha
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form id="changePasswordForm">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label for="current_password" class="form-label">Senha Atual</label>
+                                <input type="password" class="form-control" id="current_password" name="current_password" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="new_password" class="form-label">Nova Senha</label>
+                                <input type="password" class="form-control" id="new_password" name="new_password" minlength="6" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="confirm_password" class="form-label">Confirmar Nova Senha</label>
+                                <input type="password" class="form-control" id="confirm_password" name="confirm_password" minlength="6" required>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <button type="submit" class="btn btn-warning">
+                                <i class="fas fa-key me-2"></i>
+                                Alterar Senha
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Ações Rápidas -->
+            <div class="card border-0 shadow-sm mt-4">
+                <div class="card-header bg-white border-0">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-bolt text-info me-2"></i>
+                        Ações Rápidas
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <a href="@{/dashboard/dashboard}" class="btn btn-outline-primary w-100">
+                                <i class="fas fa-tachometer-alt me-2"></i>
+                                Dashboard
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="@{/users/index}" class="btn btn-outline-success w-100">
+                                <i class="fas fa-users me-2"></i>
+                                Gerenciar Usuários
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="@{/auth/logout}" class="btn btn-outline-danger w-100">
+                                <i class="fas fa-sign-out-alt me-2"></i>
+                                Sair
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Block -->
+
+<!-- Block: extra_js -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const changePasswordForm = document.getElementById('changePasswordForm');
+    
+    changePasswordForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const currentPassword = formData.get('current_password');
+        const newPassword = formData.get('new_password');
+        const confirmPassword = formData.get('confirm_password');
+        
+        // Validação básica
+        if (newPassword !== confirmPassword) {
+            alert('As senhas não coincidem!');
+            return;
+        }
+        
+        if (newPassword.length < 6) {
+            alert('A nova senha deve ter no mínimo 6 caracteres!');
+            return;
+        }
+        
+        // Enviar requisição
+        fetch('@{/profile/change_password}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Senha alterada com sucesso!');
+                changePasswordForm.reset();
+            } else {
+                alert('Erro: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Erro ao alterar senha. Tente novamente.');
+        });
+    });
+});
+</script>
+<!-- End Block -->

@@ -1,0 +1,205 @@
+<!-- Layout: layouts/authenticated.html -->
+
+<!-- Block: title -->Editar Perfil - Minha Aplicação<!-- End Block -->
+
+<!-- Block: content -->
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="h2 mb-1">
+                        <i class="fas fa-user-edit text-primary me-2"></i>
+                        Editar Perfil
+                    </h1>
+                    <p class="text-muted mb-0">Atualize suas informações pessoais</p>
+                </div>
+                <a href="@{/profile/profile}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>
+                    Voltar ao Perfil
+                </a>
+            </div>
+
+            <!-- Formulário -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-user-edit me-2 fs-4"></i>
+                        <h3 class="mb-0">Informações Pessoais</h3>
+                    </div>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST" action="@{/profile/edit_profile}" novalidate>
+                        <div class="row g-3">
+                            <div class="col-md-12 mb-3">
+                                <label for="name" class="form-label">
+                                    <i class="fas fa-id-card text-primary me-1"></i>
+                                    Nome Completo <span class="text-danger">*</span>
+                                </label>
+                                <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="name" 
+                                    name="name" 
+                                    value="<span th:text="${user.name}"></span>"
+                                    required
+                                    autofocus
+                                >
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="username" class="form-label">
+                                    <i class="fas fa-user text-primary me-1"></i>
+                                    Username <span class="text-danger">*</span>
+                                </label>
+                                <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="username" 
+                                    name="username" 
+                                    value="<span th:text="${user.username}"></span>"
+                                    required
+                                >
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">
+                                    <i class="fas fa-envelope text-primary me-1"></i>
+                                    Email <span class="text-danger">*</span>
+                                </label>
+                                <input 
+                                    type="email" 
+                                    class="form-control" 
+                                    id="email" 
+                                    name="email" 
+                                    value="<span th:text="${user.email}"></span>"
+                                    required
+                                >
+                            </div>
+
+                            <div class="col-md-12 mb-3">
+                                <label for="phone" class="form-label">
+                                    <i class="fas fa-phone text-primary me-1"></i>
+                                    Telefone
+                                </label>
+                                <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="phone" 
+                                    name="phone" 
+                                    value="<span th:text="${user.phone or ''}"></span>"
+                                    placeholder="(00) 00000-0000"
+                                >
+                                <div class="form-text">
+                                    Formato: (00) 00000-0000
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <div class="d-flex justify-content-between">
+                            <a href="@{/profile/profile}" class="btn btn-secondary">
+                                <i class="fas fa-times me-2"></i>
+                                Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>
+                                Salvar Alterações
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Informações Adicionais -->
+            <div class="card border-0 shadow-sm mt-4">
+                <div class="card-header bg-light border-0">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-info-circle text-info me-2"></i>
+                        Informações da Conta
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label text-muted">Status da Conta</label>
+                            <p class="mb-0">
+                                <th:block th:if="${user.is_active}">
+                                    <span class="badge bg-success">
+                                        <i class="fas fa-check-circle me-1"></i>
+                                        Ativa
+                                    </span>
+                                </th:block><th:block th:unless="${...}">
+                                    <span class="badge bg-secondary">
+                                        <i class="fas fa-times-circle me-1"></i>
+                                        Inativa
+                                    </span>
+                                </th:block>
+                            </p>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label text-muted">Membro desde</label>
+                            <p class="mb-0">
+                                <i class="fas fa-calendar text-primary me-2"></i>
+                                <span th:text="${user.created_at.strftime('%d/%m/%Y às %H:%M')}"></span>
+                            </p>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label text-muted">Última atualização</label>
+                            <p class="mb-0">
+                                <i class="fas fa-clock text-primary me-2"></i>
+                                <span th:text="${user.updated_at.strftime('%d/%m/%Y às %H:%M')}"></span>
+                            </p>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label text-muted">ID do Usuário</label>
+                            <p class="mb-0">
+                                <i class="fas fa-hashtag text-primary me-2"></i>
+                                #<span th:text="${user.id}"></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Block -->
+
+<!-- Block: extra_js -->
+<!-- Scripts para formulário -->
+<script src="@{/static}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Aplicar máscara de telefone
+    PhoneMask.init('phone');
+    
+    // Validação do formulário
+    const form = document.querySelector('form');
+    
+    form.addEventListener('submit', function(e) {
+        const name = document.getElementById('name').value.trim();
+        const username = document.getElementById('username').value.trim();
+        const email = document.getElementById('email').value.trim();
+        
+        if (!name || !username || !email) {
+            e.preventDefault();
+            alert('Por favor, preencha todos os campos obrigatórios.');
+            return;
+        }
+        
+        if (username.length < 3) {
+            e.preventDefault();
+            alert('Username deve ter no mínimo 3 caracteres.');
+            document.getElementById('username').focus();
+            return;
+        }
+    });
+});
+</script>
+<!-- End Block -->

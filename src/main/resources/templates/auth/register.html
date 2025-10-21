@@ -1,0 +1,163 @@
+<!-- Layout: layouts/guest.html -->
+
+<!-- Block: title -->Cadastro - Minha Aplicação<!-- End Block -->
+
+<!-- Block: content -->
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-user-plus fa-3x text-success mb-3"></i>
+                        <h2 class="card-title">Criar Conta</h2>
+                        <p class="text-muted">Preencha os dados abaixo para se cadastrar</p>
+                    </div>
+
+                    <form method="POST" action="@{/auth/register}">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">
+                                <i class="fas fa-id-card"></i> Nome Completo <span class="text-danger">*</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                id="name" 
+                                name="name" 
+                                value="<span th:text="${data.name if data else ''}"></span>"
+                                placeholder="Digite seu nome completo"
+                                required
+                                autofocus
+                            >
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="username" class="form-label">
+                                    <i class="fas fa-user"></i> Usuário <span class="text-danger">*</span>
+                                </label>
+                                <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="username" 
+                                    name="username" 
+                                    value="<span th:text="${data.username if data else ''}"></span>"
+                                    placeholder="Escolha um nome de usuário"
+                                    required
+                                >
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">
+                                    <i class="fas fa-envelope"></i> Email <span class="text-danger">*</span>
+                                </label>
+                                <input 
+                                    type="email" 
+                                    class="form-control" 
+                                    id="email" 
+                                    name="email" 
+                                    value="<span th:text="${data.email if data else ''}"></span>"
+                                    placeholder="seu@email.com"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">
+                                <i class="fas fa-phone"></i> Telefone
+                            </label>
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                id="phone" 
+                                name="phone" 
+                                value="<span th:text="${data.phone if data else ''}"></span>"
+                                placeholder="(00) 00000-0000"
+                            >
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="password" class="form-label">
+                                    <i class="fas fa-lock"></i> Senha <span class="text-danger">*</span>
+                                </label>
+                                <input 
+                                    type="password" 
+                                    class="form-control" 
+                                    id="password" 
+                                    name="password" 
+                                    placeholder="Mínimo 6 caracteres"
+                                    required
+                                    minlength="6"
+                                >
+                                <small class="text-muted">Mínimo de 6 caracteres</small>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="password_confirm" class="form-label">
+                                    <i class="fas fa-lock"></i> Confirmar Senha <span class="text-danger">*</span>
+                                </label>
+                                <input 
+                                    type="password" 
+                                    class="form-control" 
+                                    id="password_confirm" 
+                                    name="password_confirm" 
+                                    placeholder="Confirme sua senha"
+                                    required
+                                    minlength="6"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 mb-3">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="fas fa-user-plus"></i> Criar Conta
+                            </button>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <div class="text-center">
+                            <p class="mb-3 text-muted">
+                                Já tem uma conta?
+                            </p>
+                            <a href="@{/auth/login}" class="btn btn-outline-primary btn-lg w-100">
+                                <i class="fas fa-sign-in-alt"></i> Fazer Login
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="text-center mt-3">
+                <a href="@{/main/index}" class="text-muted text-decoration-none">
+                    <i class="fas fa-arrow-left"></i> Voltar para a Home
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Block -->
+
+<!-- Block: extra_js -->
+<script src="@{/static}"></script>
+<script>
+    // Aplicar máscara de telefone usando a função global
+    PhoneMask.init('phone');
+
+    // Validar se as senhas coincidem
+    const form = document.querySelector('form');
+    const password = document.getElementById('password');
+    const passwordConfirm = document.getElementById('password_confirm');
+
+    form.addEventListener('submit', function(e) {
+        if (password.value !== passwordConfirm.value) {
+            e.preventDefault();
+            alert('As senhas não coincidem!');
+            passwordConfirm.focus();
+        }
+    });
+</script>
+<!-- End Block -->
+

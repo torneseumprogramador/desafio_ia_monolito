@@ -1,0 +1,34 @@
+<!-- Layout: layouts/base.html -->
+
+<!-- Block: navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a href="@{/main/index}" class="navbar-brand">
+            <i class="fas fa-layer-group"></i> Monolito App
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a href="@{/main/index}" class="nav-link <th:block th:if="${#httpServletRequest.requestURI == 'main.index'}">active</th:block>">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="@{/main/about}" class="nav-link <th:block th:if="${#httpServletRequest.requestURI == 'main.about'}">active</th:block>">
+                        <i class="fas fa-info-circle"></i> Sobre
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="@{/auth/login}" class="nav-link <th:block th:if="${#httpServletRequest.requestURI == 'auth.login'}">active</th:block>">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- End Block -->
+

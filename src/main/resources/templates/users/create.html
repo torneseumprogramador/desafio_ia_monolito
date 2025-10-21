@@ -1,0 +1,40 @@
+<!-- Layout: layouts/authenticated.html -->
+
+<!-- Block: title -->Novo Usuário<!-- End Block -->
+
+<!-- Block: content -->
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-user-plus me-2 fs-4"></i>
+                        <h2 class="mb-0">Cadastrar Novo Usuário</h2>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted mb-4">
+                        <i class="fas fa-info-circle"></i> 
+                        Preencha os dados abaixo para cadastrar um novo usuário no sistema.
+                        Os campos marcados com <span class="text-danger">*</span> são obrigatórios.
+                    </p>
+
+                    {# Include do Partial Form #}
+                    {% set action_url = url_for('users.create') %}
+                    {% set button_text = 'Salvar Usuário' %}
+                    {% set is_edit_mode = false %}
+                    {% include 'users/_form.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Block -->
+
+<!-- Block: extra_js -->
+<!-- Scripts para formulário de usuário -->
+<script src="@{/static}"></script>
+<script src="@{/static}"></script>
+<script src="@{/static}"></script>
+<!-- End Block -->

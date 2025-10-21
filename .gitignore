@@ -1,30 +1,73 @@
-# Logs
+# Java
+*.class
+*.jar
+*.war
+*.ear
 *.log
-
-# IDE
-.vscode/
+target/
+*.iml
 .idea/
+.settings/
+.classpath
+.project
 *.swp
 *.swo
-*~
+
+# Maven
+.mvn/
+mvnw
+mvnw.cmd
+
+# Spring Boot
+/instance/
+/logs/
+
+# Database
+*.db
+*.mv.db
+*.trace.db
+
+# Environment
+.env
+*.properties.local
 
 # OS
 .DS_Store
 Thumbs.db
 
-# Java
-*.class
-*.log
-*.war
-*.ear
-target/
-
-# Maven
-.log
-*.iml
-.idea/
-.classpath
-.project
-.settings/
-
+# Python (aplicação Python - não pertence ao branch Java)
 app/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.coverage
+htmlcov/
+.pytest_cache/
+migrations/
+*.pyc
+requirements.txt
+pytest.ini
+conftest.py
+
+# IDEs
+.vscode/
+*.code-workspace
+.idea/
+*.iml
+.eclipse/
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*~

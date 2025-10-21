@@ -1,7 +1,7 @@
 // JavaScript principal da aplicação
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Aplicação Spring Boot carregada com sucesso!');
+    console.log('Aplicação Flask carregada com sucesso!');
     
     // Adicionar classe active no link da página atual
     const currentLocation = window.location.pathname;
@@ -18,3 +18,4 @@ document.addEventListener('DOMContentLoaded', function() {
 function showMessage(message, type = 'info') {
     console.log(`[${type.toUpperCase()}] ${message}`);
 }
+

@@ -1,0 +1,168 @@
+{# Partial Form para Usuários - Reutilizável entre Create e Edit #}
+
+<form method="POST" action="<span th:text="${action_url}"></span>" novalidate>
+    <div class="row">
+        <div class="col-md-12 mb-3">
+            <label for="name" class="form-label">
+                Nome Completo <span class="text-danger">*</span>
+            </label>
+            <input type="text" 
+                   class="form-control" 
+                   id="name" 
+                   name="name" 
+                   value="<span th:text="${user.name if user else (data.name if data else '')}"></span>"
+                   required
+                   autofocus>
+            <div class="invalid-feedback">
+                Por favor, informe o nome completo.
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label for="username" class="form-label">
+                Username <span class="text-danger">*</span>
+            </label>
+            <input type="text" 
+                   class="form-control" 
+                   id="username" 
+                   name="username"
+                   value="<span th:text="${user.username if user else (data.username if data else '')}"></span>"
+                   required
+                   pattern="[a-zA-Z0-9_]{3,}"
+                   title="Mínimo 3 caracteres, apenas letras, números e underscore">
+            <small class="form-text text-muted">
+                <i class="fas fa-info-circle"></i> Usado para login no sistema
+            </small>
+            <div class="invalid-feedback">
+                Username deve ter no mínimo 3 caracteres (letras, números e _).
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label for="email" class="form-label">
+                Email <span class="text-danger">*</span>
+            </label>
+            <input type="email" 
+                   class="form-control" 
+                   id="email" 
+                   name="email"
+                   value="<span th:text="${user.email if user else (data.email if data else '')}"></span>"
+                   required>
+            <div class="invalid-feedback">
+                Por favor, informe um email válido.
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label for="phone" class="form-label">
+                Telefone
+            </label>
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="fas fa-phone"></i>
+                </span>
+                <input type="tel" 
+                       class="form-control" 
+                       id="phone" 
+                       name="phone"
+                       value="<span th:text="${user.phone if user else (data.phone if data else '')}"></span>"
+                       placeholder="(00) 00000-0000"
+                       maxlength="15">
+            </div>
+            <small class="form-text text-muted">
+                <i class="fas fa-info-circle"></i> Digite apenas números. A formatação é automática.
+            </small>
+            <div class="invalid-feedback">
+                Por favor, informe um telefone válido.
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label for="password" class="form-label">
+                <span th:text="${'Nova Senha' if is_edit_mode else 'Senha'}"></span>
+                <th:block th:if="${not is_edit_mode}">
+                    <span class="text-danger">*</span>
+                </th:block>
+            </label>
+            <div class="input-group">
+                <input type="password" 
+                       class="form-control" 
+                       id="password" 
+                       name="password"
+                       minlength="6"
+                       <th:block th:if="${not is_edit_mode}">required</th:block>>
+                <button class="btn btn-outline-secondary" 
+                        type="button" 
+                        id="togglePassword"
+                        title="Mostrar/Ocultar senha">
+                    <i class="fas fa-eye" id="togglePasswordIcon"></i>
+                </button>
+            </div>
+            <small class="form-text text-muted">
+                <i class="fas fa-info-circle"></i> 
+                <th:block th:if="${is_edit_mode}">
+                    Deixe em branco para manter a senha atual
+                </th:block><th:block th:unless="${...}">
+                    Mínimo de 6 caracteres
+                </th:block>
+            </small>
+            <div class="invalid-feedback">
+                A senha deve ter no mínimo 6 caracteres.
+            </div>
+        </div>
+
+        <div class="col-md-12 mb-3">
+            <div class="form-check form-switch">
+                <input class="form-check-input" 
+                       type="checkbox" 
+                       role="switch"
+                       id="is_active" 
+                       name="is_active"
+                       <th:block th:if="${user}">
+                           <span th:text="${'checked' if user.is_active else ''}"></span>
+                       </th:block><th:block th:unless="${...}">
+                           <span th:text="${'checked' if not data or data.is_active else ''}"></span>
+                       </th:block>>
+                <label class="form-check-label" for="is_active">
+                    <i class="fas fa-user-check text-success"></i> Usuário ativo
+                </label>
+                <small class="form-text text-muted d-block">
+                    Desative para impedir o acesso do usuário ao sistema
+                </small>
+            </div>
+        </div>
+    </div>
+
+    <th:block th:if="${is_edit_mode and user}">
+        <div class="alert alert-info border-start border-info border-4">
+            <h6 class="alert-heading">
+                <i class="fas fa-info-circle"></i> Informações do Cadastro
+            </h6>
+            <ul class="mb-0 small">
+                <li>
+                    <strong>Criado em:</strong> 
+                    <span th:text="${user.created_at.strftime('%d/%m/%Y às %H:%M')}"></span>
+                </li>
+                <li>
+                    <strong>Última atualização:</strong> 
+                    <span th:text="${user.updated_at.strftime('%d/%m/%Y às %H:%M')}"></span>
+                </li>
+                <li>
+                    <strong>ID:</strong> #<span th:text="${user.id}"></span>
+                </li>
+            </ul>
+        </div>
+    </th:block>
+
+    <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+        <a href="@{/users/index}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left"></i> Voltar
+        </a>
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i> <span th:text="${button_text}"></span>
+        </button>
+    </div>
+</form>
+
+{# Scripts do formulário carregados do footer #}
+
