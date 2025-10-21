@@ -1,3 +1,4 @@
-- Criar testes automatizados
 - fazer tudo que foi feito no python, migrado no java.
-- fazer mais uma branch com tudo que foi feito no C# e no Node
+- criar apps front-end
+- criar apis para iteragir com o front
+- utilizar o cursor para trabalhar com o front-end e o backend separados
