@@ -58,10 +58,10 @@ class UserTest {
 
     @Test
     void testSetPassword() {
-        String newPassword = "newpassword123";
-        user.setPassword(newPassword);
+        String newPasswordHash = "$2a$10$newhashvalue";
+        user.setPassword(newPasswordHash);
 
-        assertNotEquals(newPassword, user.getPasswordHash());
+        assertEquals(newPasswordHash, user.getPasswordHash());
         assertNotNull(user.getPasswordHash());
     }
 

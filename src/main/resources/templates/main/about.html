@@ -1,19 +1,154 @@
-{% extends "layouts/authenticated.html" if ${session.user_id} else "layouts/guest.html" %}
-
-<!-- Block: content -->
-<div class="about-section">
-    <h1>Sobre o Projeto</h1>
-    <p>Este é um projeto monolito desenvolvido com Flask.</p>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title != null ? title + ' - Minha Aplicação' : 'Sobre - Minha Aplicação'}">Sobre - Minha Aplicação</title>
     
-    <div class="info-box">
-        <h2>Tecnologias Utilizadas</h2>
-        <ul>
-            <li>Python 3.13</li>
-            <li>Flask 3.0</li>
-            <li>Jinja2 Templates</li>
-            <li>SQLAlchemy (opcional)</li>
-        </ul>
-    </div>
-</div>
-<!-- End Block -->
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a th:href="@{/}" class="navbar-brand">
+                <i class="fas fa-layer-group"></i> Monolito App
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a th:href="@{/}" class="nav-link">
+                            <i class="fas fa-home"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/about}" class="nav-link active">
+                            <i class="fas fa-info-circle"></i> Sobre
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/auth/login}" class="nav-link">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
+    <main>
+        <!-- Flash Messages -->
+        <div class="container mt-3">
+            <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+                <span th:text="${success}">Success message</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+        
+        <!-- About Content -->
+        <div class="container my-5">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-primary text-white">
+                            <h2 class="mb-0"><i class="fas fa-info-circle me-2"></i>Sobre a Aplicação</h2>
+                        </div>
+                        <div class="card-body">
+                            <h4>📚 Aplicação Monolítica com Spring Boot</h4>
+                            <p class="lead">
+                                Esta é uma aplicação de demonstração construída com Java e Spring Boot,
+                                utilizando as melhores práticas de desenvolvimento de software.
+                            </p>
+
+                            <hr>
+
+                            <h5 class="mt-4">🎯 Funcionalidades</h5>
+                            <ul class="list-group list-group-flush mb-4">
+                                <li class="list-group-item">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    Sistema de autenticação completo
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    Gerenciamento de usuários (CRUD)
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    Dashboard com estatísticas
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    Perfil de usuário personalizável
+                                </li>
+                                <li class="list-group-item">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    Interface responsiva e moderna
+                                </li>
+                            </ul>
+
+                            <h5 class="mt-4">🛠️ Tecnologias</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="tech-badge">
+                                        <i class="fas fa-coffee text-warning"></i>
+                                        <strong>Java 17</strong>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="tech-badge">
+                                        <i class="fas fa-leaf text-success"></i>
+                                        <strong>Spring Boot 3.2</strong>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="tech-badge">
+                                        <i class="fas fa-database text-primary"></i>
+                                        <strong>Spring Data JPA</strong>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="tech-badge">
+                                        <i class="fas fa-palette text-info"></i>
+                                        <strong>Bootstrap 5</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <div class="text-center">
+                                <p class="mb-3">
+                                    <strong>Desenvolvido com ❤️ usando Spring Boot</strong>
+                                </p>
+                                <p class="text-muted small mb-0">
+                                    Versão 1.0.0 - 2025
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark text-white text-center py-4 mt-5">
+        <div class="container">
+            <p class="mb-0">&copy; 2025 Monolito App. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script th:src="@{/js/main.js}"></script>
+</body>
+</html>
