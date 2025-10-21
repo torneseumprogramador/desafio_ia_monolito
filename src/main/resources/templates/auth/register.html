@@ -16,7 +16,7 @@
                         <p class="text-muted">Preencha os dados abaixo para se cadastrar</p>
                     </div>
 
-                    <form method="POST" action="@{/auth/register}">
+                    <form method="POST" th:action="@{/auth/register}">
                         <div class="mb-3">
                             <label for="name" class="form-label">
                                 <i class="fas fa-id-card"></i> Nome Completo <span class="text-danger">*</span>
