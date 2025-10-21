@@ -32,12 +32,12 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-user-circle fa-lg me-2"></i>
-                        <span class="fw-bold"><span th:text="${${session.name}}"></span></span>
+                        <span class="fw-bold"><span th:text="${session.name}"></span></span>
                     </a>
                             <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
                                 <li>
                                     <div class="px-3 py-2 text-muted small">
-                                        <i class="fas fa-at"></i> <span th:text="${${session.username}}"></span>
+                                        <i class="fas fa-at"></i> <span th:text="${session.username}"></span>
                                     </div>
                                 </li>
                                 <li><hr class="dropdown-divider"></li>
