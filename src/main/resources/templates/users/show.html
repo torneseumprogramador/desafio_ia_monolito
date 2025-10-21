@@ -90,15 +90,15 @@
                     <hr>
 
                     <div class="d-flex justify-content-between mt-4">
-                        <a href="@{/users/index}" class="btn btn-secondary">
+                        <a th:href="@{/users/index}" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i> Voltar
                         </a>
                         <div>
-                            <a href="@{/users.edit}" class="btn btn-warning">
+                            <a th:href="@{/users.edit}" class="btn btn-warning">
                                 <i class="fas fa-edit"></i> Editar
                             </a>
                             <form method="POST" 
-                                  action="@{/users.delete}" 
+                                  th:action="@{/users.delete}" 
                                   onsubmit="return confirm('Tem certeza que deseja excluir este usuário?');"
                                   style="display: inline;">
                                 <button type="submit" class="btn btn-danger">

@@ -46,16 +46,16 @@
                                     <td><span th:text="${user.created_at.strftime('%d/%m/%Y %H:%M')}"></span></td>
                                     <td>
                                         <div class="btn-group" role="group">
-                                            <a href="@{/users.show}" 
+                                            <a th:href="@{/users.show}" 
                                                class="btn btn-sm btn-info" title="Ver detalhes">
                                                 <i class="fas fa-eye"></i>
                                             </a>
-                                            <a href="@{/users.edit}" 
+                                            <a th:href="@{/users.edit}" 
                                                class="btn btn-sm btn-warning" title="Editar">
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                             <form method="POST" 
-                                                  action="@{/users.toggle_status}" 
+                                                  th:action="@{/users.toggle_status}" 
                                                   style="display: inline;">
                                                 <button type="submit" 
                                                         class="btn btn-sm btn-secondary" 
@@ -64,7 +64,7 @@
                                                 </button>
                                             </form>
                                             <form method="POST" 
-                                                  action="@{/users.delete}" 
+                                                  th:action="@{/users.delete}" 
                                                   onsubmit="return confirm('Tem certeza que deseja excluir este usuário?');"
                                                   style="display: inline;">
                                                 <button type="submit" 
@@ -100,7 +100,7 @@
                                 {% elif p == 1 or p == total_pages or (p >= page - 2 and p <= page + 2) %}
                                     <li class="page-item">
                                         <a class="page-link" 
-                                           href="@{/users.index}">
+                                           th:href="@{/users.index}">
                                             <span th:text="${p}"></span>
                                         </a>
                                     </li>
@@ -128,7 +128,7 @@
                 <div class="text-center py-5">
                     <i class="fas fa-users fa-3x text-muted mb-3"></i>
                     <p class="text-muted">Nenhum usuário cadastrado</p>
-                    <a href="@{/users/create}" class="btn btn-primary">
+                    <a th:href="@{/users/create}" class="btn btn-primary">
                         <i class="fas fa-plus"></i> Cadastrar Primeiro Usuário
                     </a>
                 </div>
